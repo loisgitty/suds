@@ -174,6 +174,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
     </div>
   </div>
 
+  <!-- Load Log -->
+  <div class="section">
+    <div class="section-label">Load Log</div>
+    <div class="log-card">
+      <div class="log-form">
+        <select id="log-line">
+          <option value="">Line…</option>
+          <option value="retail">Retail</option>
+          <option value="line1">Line 1</option>
+          <option value="line2">Line 2</option>
+          <option value="line3">Line 3</option>
+          <option value="pd">P&amp;D</option>
+        </select>
+        <input class="inp-client" type="text" id="log-client" placeholder="Client name" autocomplete="off">
+        <input class="inp-note" type="text" id="log-note" placeholder="Note (optional)" autocomplete="off">
+        <button class="btn-primary" id="btn-add">+ Add</button>
+      </div>
+      <div class="log-list" id="log-list">
+        <div class="empty-msg">No entries yet.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Staff Pools -->
   <div class="section">
     <div class="section-label">Staff Pools</div>
@@ -298,29 +321,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- Load Log -->
-  <div class="section">
-    <div class="section-label">Load Log</div>
-    <div class="log-card">
-      <div class="log-form">
-        <select id="log-line">
-          <option value="">Line…</option>
-          <option value="retail">Retail</option>
-          <option value="line1">Line 1</option>
-          <option value="line2">Line 2</option>
-          <option value="line3">Line 3</option>
-          <option value="pd">P&amp;D</option>
-        </select>
-        <input class="inp-client" type="text" id="log-client" placeholder="Client name" autocomplete="off">
-        <input class="inp-note" type="text" id="log-note" placeholder="Note (optional)" autocomplete="off">
-        <button class="btn-primary" id="btn-add">+ Add</button>
-      </div>
-      <div class="log-list" id="log-list">
-        <div class="empty-msg">No entries yet.</div>
-      </div>
     </div>
   </div>
 
