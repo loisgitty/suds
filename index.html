@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laundry Operations Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#f0f4f8;color:#1a2332;min-height:100vh}
+
+/* ── LAYOUT ── */
+.app{max-width:1440px;margin:0 auto;padding:16px}
+
+/* ── HEADER ── */
+.app-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;flex-wrap:wrap;gap:8px}
+.app-header h1{font-size:1.5rem;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.app-header h1 span{color:#3b82f6}
+.header-date{font-size:.78rem;color:#64748b;background:#fff;padding:6px 14px;border-radius:20px;border:1px solid #e2e8f0}
+
+/* ── SECTION ── */
+.section{margin-bottom:24px}
+.section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-bottom:10px}
+
+/* ── SUMMARY BAR ── */
+.summary-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+.s-card{background:#fff;border-radius:12px;padding:14px 12px;text-align:center;border:2px solid;position:relative;overflow:hidden}
+.s-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.s-card .s-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.s-card .s-num{font-size:2.2rem;font-weight:900;line-height:1;letter-spacing:-.02em}
+.s-card .s-unit{font-size:.68rem;opacity:.6;margin-top:2px;font-weight:500}
+
+.t-retail{border-color:#c4b5fd;color:#6d28d9}.t-retail::before{background:#7c3aed}.t-retail .s-num{color:#5b21b6}
+.t-line1{border-color:#86efac;color:#15803d}.t-line1::before{background:#16a34a}.t-line1 .s-num{color:#166534}
+.t-line2{border-color:#93c5fd;color:#1d4ed8}.t-line2::before{background:#2563eb}.t-line2 .s-num{color:#1e40af}
+.t-line3{border-color:#fcd34d;color:#b45309}.t-line3::before{background:#d97706}.t-line3 .s-num{color:#92400e}
+.t-pd{border-color:#fdba74;color:#c2410c}.t-pd::before{background:#f97316}.t-pd .s-num{color:#9a3412}
+
+/* ── POOLS ROW ── */
+.pools-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.pool-card{background:#fff;border-radius:12px;border:2px dashed #e2e8f0;overflow:hidden;min-height:90px}
+.pool-card.pool-rest{background:#fdf4ff;border-color:#d8b4fe}
+.pool-card.pool-absent{background:#fff5f5;border-color:#fca5a5}
+.pool-header{padding:8px 12px;display:flex;align-items:center;gap:6px}
+.pool-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pool-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.pool-rest .pool-title{color:#7c3aed}.pool-rest .pool-dot{background:#7c3aed}
+.pool-absent .pool-title{color:#dc2626}.pool-absent .pool-dot{background:#dc2626}
+.pool-unassigned .pool-title{color:#64748b}.pool-unassigned .pool-dot{background:#94a3b8}
+
+/* ── LINES GRID ── */
+.lines-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.lane{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;overflow:hidden}
+.lane-hd{padding:10px 14px}
+.lane-hd-title{font-size:.85rem;font-weight:700;color:#fff}
+.lane-body{padding:10px}
+.lane-shifts{display:grid;grid-template-columns:1fr 1fr;min-height:80px}
+.shift-col{border-right:1px solid #f0f4f8}
+.shift-col:last-child{border-right:none}
+.shift-lbl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:5px 10px}
+.lane-clients{border-top:1px solid #f0f4f8;padding:8px 10px}
+.clients-hd{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:5px}
+.client-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:.74rem}
+.client-row .cn{color:#475569}
+.client-row .ckg{font-weight:700;color:#0f172a}
+
+/* ── DROP AREA ── */
+.drop-area{padding:8px;min-height:60px}
+.drop-area.drag-over{background:#eff6ff !important;outline:2px dashed #60a5fa;outline-offset:-2px;border-radius:8px}
+
+/* ── STAFF CARD ── */
+.staff-card{display:flex;align-items:center;gap:7px;padding:6px 8px;background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;margin-bottom:5px;cursor:grab;user-select:none;transition:box-shadow .15s,border-color .15s,opacity .15s;-webkit-user-select:none;touch-action:none}
+.staff-card:hover{border-color:#94a3b8;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.staff-card.dragging{opacity:.35;cursor:grabbing}
+.staff-card.is-absent .sname{text-decoration:line-through;color:#94a3b8}
+.savatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:#fff;flex-shrink:0}
+.sname{font-size:.78rem;font-weight:600;color:#334155;line-height:1.2}
+
+/* ── LOG SECTION ── */
+.log-card{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;padding:16px}
+.log-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #f0f4f8}
+.log-form select,.log-form input{padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;color:#334155;outline:none;font-family:inherit;background:#f8fafc;transition:border-color .15s}
+.log-form select:focus,.log-form input:focus{border-color:#93c5fd;background:#fff}
+.log-form select{min-width:100px}
+.log-form .inp-kg{width:72px}
+.log-form .inp-client{flex:1;min-width:100px}
+.log-form .inp-note{width:180px}
+.btn-primary{padding:8px 16px;background:#0f172a;color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap}
+.btn-primary:hover{background:#1e293b}
+.log-list{max-height:320px;overflow-y:auto}
+.log-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;margin-bottom:4px;background:#f8fafc;font-size:.78rem;border:1px solid #f0f4f8}
+.log-item:hover{background:#f1f5f9}
+.log-badge{padding:2px 7px;border-radius:4px;font-size:.64rem;font-weight:700;color:#fff;white-space:nowrap;flex-shrink:0}
+.log-client{font-weight:600;color:#1e293b;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-kg{font-weight:700;color:#0f172a;white-space:nowrap;flex-shrink:0}
+.log-note{color:#64748b;font-style:italic;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-time{color:#94a3b8;white-space:nowrap;flex-shrink:0;font-size:.7rem}
+.btn-del{background:none;border:none;color:#cbd5e1;cursor:pointer;font-size:1rem;line-height:1;padding:2px 5px;border-radius:4px;transition:color .15s,background .15s;flex-shrink:0}
+.btn-del:hover{color:#ef4444;background:#fee2e2}
+
+/* ── CHART ── */
+.chart-card{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;padding:16px}
+.chart-bars-row{display:flex;align-items:flex-end;gap:12px;height:200px;padding:0 4px}
+.chart-col{flex:1;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;height:100%}
+.chart-bars-wrap{display:flex;align-items:flex-end;gap:2px;flex:1;min-height:0}
+.chart-bar{flex:1;min-width:6px;border-radius:3px 3px 0 0;cursor:pointer;transition:filter .15s}
+.chart-bar:hover{filter:brightness(1.2)}
+.chart-col-lbl{font-size:.66rem;font-weight:700;color:#64748b;text-align:center;padding-top:6px;border-top:2px solid #e2e8f0}
+
+/* ── ALL CLIENTS ── */
+.clients-card{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;padding:16px}
+.clients-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.clients-col-hd{font-size:.72rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;margin-bottom:8px}
+.clients-crow{display:flex;justify-content:space-between;font-size:.78rem;padding:3px 5px;border-radius:4px}
+.clients-crow:nth-child(odd){background:#f8fafc}
+.clients-crow .cn{color:#475569}
+.clients-crow .ck{font-weight:700;color:#0f172a}
+
+/* ── SHARED ── */
+.empty-msg{text-align:center;padding:20px;color:#94a3b8;font-size:.78rem;font-style:italic}
+.chart-tooltip{position:fixed;background:#0f172a;color:#fff;font-size:.72rem;padding:5px 10px;border-radius:6px;pointer-events:none;z-index:9999;display:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:#f1f5f9}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .lines-grid{grid-template-columns:1fr}
+  .log-form{flex-direction:column}
+  .log-form .inp-note{width:auto}
+}
+@media(max-width:600px){
+  .pools-row{grid-template-columns:1fr}
+  .summary-bar{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:400px){
+  .summary-bar{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="app-header">
+    <h1>Laundry <span>Operations</span></h1>
+    <div class="header-date" id="header-date">—</div>
+  </div>
+
+  <!-- Summary Bar -->
+  <div class="summary-bar">
+    <div class="s-card t-retail">
+      <div class="s-label">Retail</div>
+      <div class="s-num" id="sum-retail">0</div>
+      <div class="s-unit">kg total</div>
+    </div>
+    <div class="s-card t-line1">
+      <div class="s-label">Line 1</div>
+      <div class="s-num" id="sum-line1">0</div>
+      <div class="s-unit">kg total</div>
+    </div>
+    <div class="s-card t-line2">
+      <div class="s-label">Line 2</div>
+      <div class="s-num" id="sum-line2">0</div>
+      <div class="s-unit">kg total</div>
+    </div>
+    <div class="s-card t-line3">
+      <div class="s-label">Line 3</div>
+      <div class="s-num" id="sum-line3">0</div>
+      <div class="s-unit">kg total</div>
+    </div>
+    <div class="s-card t-pd">
+      <div class="s-label">P&amp;D</div>
+      <div class="s-num" id="sum-pd">0</div>
+      <div class="s-unit">kg total</div>
+    </div>
+  </div>
+
+  <!-- Staff Pools -->
+  <div class="section">
+    <div class="section-label">Staff Pools</div>
+    <div class="pools-row">
+      <div class="pool-card pool-unassigned">
+        <div class="pool-header">
+          <div class="pool-dot"></div>
+          <span class="pool-title">Unassigned</span>
+        </div>
+        <div class="drop-area" id="zone-unassigned" data-zone="unassigned"></div>
+      </div>
+      <div class="pool-card pool-rest">
+        <div class="pool-header">
+          <div class="pool-dot"></div>
+          <span class="pool-title">Rest Day</span>
+        </div>
+        <div class="drop-area" id="zone-rest" data-zone="rest"></div>
+      </div>
+      <div class="pool-card pool-absent">
+        <div class="pool-header">
+          <div class="pool-dot"></div>
+          <span class="pool-title">Absent</span>
+        </div>
+        <div class="drop-area" id="zone-absent" data-zone="absent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lines -->
+  <div class="section">
+    <div class="section-label">Lines &amp; Staff</div>
+    <div class="lines-grid">
+
+      <!-- Retail -->
+      <div class="lane">
+        <div class="lane-hd" style="background:#7c3aed">
+          <span class="lane-hd-title">Retail</span>
+        </div>
+        <div class="lane-body">
+          <div class="drop-area" id="zone-retail" data-zone="retail"></div>
+        </div>
+        <div class="lane-clients">
+          <div class="clients-hd">Clients Today</div>
+          <div id="lc-retail"></div>
+        </div>
+      </div>
+
+      <!-- Line 1 -->
+      <div class="lane">
+        <div class="lane-hd" style="background:#16a34a">
+          <span class="lane-hd-title">Line 1</span>
+        </div>
+        <div class="lane-shifts">
+          <div class="shift-col">
+            <div class="shift-lbl" style="color:#166534;background:#f0fdf4">AM</div>
+            <div class="shift-drop drop-area" id="zone-line1-am" data-zone="line1-am"></div>
+          </div>
+          <div class="shift-col">
+            <div class="shift-lbl" style="color:#15803d;background:#dcfce7">PM</div>
+            <div class="shift-drop drop-area" id="zone-line1-pm" data-zone="line1-pm"></div>
+          </div>
+        </div>
+        <div class="lane-clients">
+          <div class="clients-hd">Clients Today</div>
+          <div id="lc-line1"></div>
+        </div>
+      </div>
+
+      <!-- Line 2 -->
+      <div class="lane">
+        <div class="lane-hd" style="background:#2563eb">
+          <span class="lane-hd-title">Line 2</span>
+        </div>
+        <div class="lane-shifts">
+          <div class="shift-col">
+            <div class="shift-lbl" style="color:#1e40af;background:#eff6ff">AM</div>
+            <div class="shift-drop drop-area" id="zone-line2-am" data-zone="line2-am"></div>
+          </div>
+          <div class="shift-col">
+            <div class="shift-lbl" style="color:#1d4ed8;background:#dbeafe">PM</div>
+            <div class="shift-drop drop-area" id="zone-line2-pm" data-zone="line2-pm"></div>
+          </div>
+        </div>
+        <div class="lane-clients">
+          <div class="clients-hd">Clients Today</div>
+          <div id="lc-line2"></div>
+        </div>
+      </div>
+
+      <!-- Line 3 -->
+      <div class="lane">
+        <div class="lane-hd" style="background:#d97706">
+          <span class="lane-hd-title">Line 3</span>
+        </div>
+        <div class="lane-shifts">
+          <div class="shift-col">
+            <div class="shift-lbl" style="color:#92400e;background:#fffbeb">AM</div>
+            <div class="shift-drop drop-area" id="zone-line3-am" data-zone="line3-am"></div>
+          </div>
+          <div class="shift-col">
+            <div class="shift-lbl" style="color:#b45309;background:#fef3c7">PM</div>
+            <div class="shift-drop drop-area" id="zone-line3-pm" data-zone="line3-pm"></div>
+          </div>
+        </div>
+        <div class="lane-clients">
+          <div class="clients-hd">Clients Today</div>
+          <div id="lc-line3"></div>
+        </div>
+      </div>
+
+      <!-- P&D -->
+      <div class="lane">
+        <div class="lane-hd" style="background:#f97316">
+          <span class="lane-hd-title">Pickup &amp; Delivery</span>
+        </div>
+        <div class="lane-body">
+          <div class="drop-area" id="zone-pd" data-zone="pd"></div>
+        </div>
+        <div class="lane-clients">
+          <div class="clients-hd">Clients Today</div>
+          <div id="lc-pd"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Load Log -->
+  <div class="section">
+    <div class="section-label">Load Log</div>
+    <div class="log-card">
+      <div class="log-form">
+        <select id="log-line">
+          <option value="">Line…</option>
+          <option value="retail">Retail</option>
+          <option value="line1">Line 1</option>
+          <option value="line2">Line 2</option>
+          <option value="line3">Line 3</option>
+          <option value="pd">P&amp;D</option>
+        </select>
+        <input class="inp-client" type="text" id="log-client" placeholder="Client name" autocomplete="off">
+        <input class="inp-kg" type="number" id="log-kg" placeholder="kg" min="0.1" step="0.1">
+        <input class="inp-note" type="text" id="log-note" placeholder="Note (optional)" autocomplete="off">
+        <button class="btn-primary" id="btn-add">+ Add</button>
+      </div>
+      <div class="log-list" id="log-list">
+        <div class="empty-msg">No entries yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="section">
+    <div class="section-label">Load History Chart</div>
+    <div class="chart-card">
+      <div id="chart-area"><div class="empty-msg">Add log entries to see chart.</div></div>
+    </div>
+  </div>
+
+  <!-- All Clients -->
+  <div class="section">
+    <div class="section-label">All Clients</div>
+    <div class="clients-card">
+      <div id="all-clients"><div class="empty-msg">Add log entries to see client totals.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Chart tooltip -->
+<div class="chart-tooltip" id="tip"></div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const STAFF = [
+  // Retail — start in retail lane
+  {id:'werlyn',  name:'Werlyn',  home:'retail'},
+  {id:'katrina', name:'Katrina', home:'retail'},
+  {id:'jessa',   name:'Jessa',   home:'retail'},
+  {id:'shirley', name:'Shirley', home:'retail'},
+  // Line 1 — start unassigned
+  {id:'yolly',   name:'Yolly',   home:'unassigned'},
+  {id:'morena',  name:'Morena',  home:'unassigned'},
+  {id:'emelyn',  name:'Emelyn',  home:'unassigned'},
+  // Line 2 — start unassigned
+  {id:'alona',   name:'Alona',   home:'unassigned'},
+  {id:'lilia',   name:'Lilia',   home:'unassigned'},
+  {id:'arjelie', name:'Arjelie', home:'unassigned'},
+  {id:'argelyn', name:'Argelyn', home:'unassigned'},
+  {id:'annabel', name:'Annabel', home:'unassigned'},
+  // Line 3 — start unassigned
+  {id:'helen',   name:'Helen',   home:'unassigned'},
+  {id:'jogelyn', name:'Jogelyn', home:'unassigned'},
+  {id:'tolits',  name:'Tolits',  home:'unassigned'},
+  // P&D — start in pd lane
+  {id:'joedel',  name:'Joedel',  home:'pd'},
+  {id:'loydi',   name:'Loydi',   home:'pd'},
+  {id:'jerome',  name:'Jerome',  home:'pd'},
+  {id:'anton',   name:'Anton',   home:'pd'},
+];
+
+const LINES = ['retail','line1','line2','line3','pd'];
+const LINE_META = {
+  retail:{name:'Retail',  color:'#7c3aed'},
+  line1: {name:'Line 1',  color:'#16a34a'},
+  line2: {name:'Line 2',  color:'#2563eb'},
+  line3: {name:'Line 3',  color:'#d97706'},
+  pd:    {name:'P&D',     color:'#f97316'},
+};
+const ALL_ZONES = ['retail','line1-am','line1-pm','line2-am','line2-pm',
+                   'line3-am','line3-pm','pd','unassigned','rest','absent'];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state = {assign:{}, log:[]};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('laundry_ops_v3');
+    if (raw) { const p = JSON.parse(raw); state.assign = p.assign||{}; state.log = p.log||[]; }
+  } catch(e){}
+  STAFF.forEach(s => { if (!state.assign[s.id]) state.assign[s.id] = s.home; });
+}
+function saveState() {
+  try { localStorage.setItem('laundry_ops_v3', JSON.stringify(state)); } catch(e){}
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function initials(n){ return n.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function avatarColor(id){
+  const p=['#6366f1','#8b5cf6','#ec4899','#f43f5e','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#a855f7','#14b8a6','#f59e0b'];
+  let h=0; for(let c of id) h=((h*31)+c.charCodeAt(0))>>>0;
+  return p[h%p.length];
+}
+function fmtKg(n){ return n%1===0?String(n):n.toFixed(1); }
+function fmtTime(iso){ return new Date(iso).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
+function totals(){
+  const t={retail:0,line1:0,line2:0,line3:0,pd:0};
+  state.log.forEach(e=>{ if(t[e.line]!==undefined) t[e.line]+=e.kg; });
+  return t;
+}
+
+/* ============================================================
+   DRAG & DROP — HTML5
+   ============================================================ */
+let dragId = null;
+
+function bindDragEvents(card, id) {
+  card.draggable = true;
+  card.addEventListener('dragstart', e => {
+    dragId = id;
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', id);
+  });
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    dragId = null;
+  });
+}
+
+function setupDropZones() {
+  document.querySelectorAll('[data-zone]').forEach(el => {
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      el.classList.add('drag-over');
+    });
+    el.addEventListener('dragleave', e => {
+      if (!el.contains(e.relatedTarget)) el.classList.remove('drag-over');
+    });
+    el.addEventListener('drop', e => {
+      e.preventDefault();
+      el.classList.remove('drag-over');
+      const id = e.dataTransfer.getData('text/plain') || dragId;
+      if (id) { state.assign[id] = el.dataset.zone; saveState(); renderStaff(); }
+    });
+  });
+}
+
+/* ============================================================
+   DRAG & DROP — TOUCH
+   ============================================================ */
+let touchDrag = null;
+
+function bindTouchEvents(card, id) {
+  card.addEventListener('touchstart', e => {
+    const touch = e.touches[0];
+    const rect  = card.getBoundingClientRect();
+    const ghost = card.cloneNode(true);
+    ghost.style.cssText =
+      'position:fixed;z-index:9999;pointer-events:none;opacity:.85;' +
+      `width:${rect.width}px;top:${rect.top}px;left:${rect.left}px;` +
+      'border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:none;';
+    document.body.appendChild(ghost);
+    card.style.opacity = '.3';
+    touchDrag = { id, ghost, card, ox: touch.clientX - rect.left, oy: touch.clientY - rect.top };
+    e.preventDefault();
+  }, {passive:false});
+
+  card.addEventListener('touchmove', e => {
+    if (!touchDrag) return;
+    const t = e.touches[0];
+    touchDrag.ghost.style.left = (t.clientX - touchDrag.ox) + 'px';
+    touchDrag.ghost.style.top  = (t.clientY - touchDrag.oy) + 'px';
+    e.preventDefault();
+  }, {passive:false});
+
+  card.addEventListener('touchend', e => {
+    if (!touchDrag) return;
+    const t = e.changedTouches[0];
+    touchDrag.ghost.style.display = 'none';
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    touchDrag.ghost.remove();
+    touchDrag.card.style.opacity = '';
+    const zone = el && el.closest('[data-zone]');
+    if (zone) { state.assign[touchDrag.id] = zone.dataset.zone; saveState(); renderStaff(); }
+    touchDrag = null;
+    e.preventDefault();
+  }, {passive:false});
+}
+
+/* ============================================================
+   RENDER — STAFF
+   ============================================================ */
+function renderStaff() {
+  ALL_ZONES.forEach(z => { const el = document.getElementById('zone-'+z); if(el) el.innerHTML=''; });
+
+  STAFF.forEach(s => {
+    const zone  = state.assign[s.id] || s.home;
+    const zoneEl = document.getElementById('zone-'+zone);
+    if (!zoneEl) return;
+
+    const card = document.createElement('div');
+    card.className = 'staff-card' + (zone==='absent' ? ' is-absent' : '');
+    card.dataset.sid = s.id;
+
+    const av = document.createElement('div');
+    av.className = 'savatar';
+    av.style.background = avatarColor(s.id);
+    av.textContent = initials(s.name);
+
+    const nm = document.createElement('span');
+    nm.className = 'sname';
+    nm.textContent = s.name;
+
+    card.appendChild(av);
+    card.appendChild(nm);
+    zoneEl.appendChild(card);
+
+    bindDragEvents(card, s.id);
+    bindTouchEvents(card, s.id);
+  });
+}
+
+/* ============================================================
+   RENDER — SUMMARY
+   ============================================================ */
+function renderSummary() {
+  const t = totals();
+  document.getElementById('sum-retail').textContent = fmtKg(t.retail);
+  document.getElementById('sum-line1').textContent  = fmtKg(t.line1);
+  document.getElementById('sum-line2').textContent  = fmtKg(t.line2);
+  document.getElementById('sum-line3').textContent  = fmtKg(t.line3);
+  document.getElementById('sum-pd').textContent     = fmtKg(t.pd);
+}
+
+/* ============================================================
+   RENDER — LANE CLIENT LISTS
+   ============================================================ */
+function renderLaneClients() {
+  LINES.forEach(line => {
+    const agg = {};
+    state.log.filter(e => e.line===line).forEach(e => { agg[e.client]=(agg[e.client]||0)+e.kg; });
+    const el = document.getElementById('lc-'+line);
+    if (!el) return;
+    const pairs = Object.entries(agg);
+    el.innerHTML = pairs.length
+      ? pairs.map(([n,k]) =>
+          `<div class="client-row"><span class="cn">${esc(n)}</span><span class="ckg">${fmtKg(k)} kg</span></div>`
+        ).join('')
+      : '<div style="font-size:.72rem;color:#94a3b8;font-style:italic;padding:2px 4px">No clients logged</div>';
+  });
+}
+
+/* ============================================================
+   RENDER — LOG LIST
+   ============================================================ */
+function renderLog() {
+  const container = document.getElementById('log-list');
+  if (!state.log.length) { container.innerHTML='<div class="empty-msg">No entries yet.</div>'; return; }
+  container.innerHTML = '';
+  state.log.forEach(entry => {
+    const meta = LINE_META[entry.line] || {name:entry.line, color:'#64748b'};
+    const item = document.createElement('div');
+    item.className = 'log-item';
+    item.innerHTML =
+      `<span class="log-badge" style="background:${meta.color}">${esc(meta.name)}</span>` +
+      `<span class="log-client">${esc(entry.client)}</span>` +
+      `<span class="log-kg">${fmtKg(entry.kg)} kg</span>` +
+      (entry.note ? `<span class="log-note">${esc(entry.note)}</span>` : `<span></span>`) +
+      `<span class="log-time">${fmtTime(entry.ts)}</span>` +
+      `<button class="btn-del" data-id="${esc(entry.id)}" title="Delete">&#x2715;</button>`;
+    container.appendChild(item);
+  });
+  container.querySelectorAll('.btn-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.log = state.log.filter(e => e.id !== btn.dataset.id);
+      saveState(); renderAll();
+    });
+  });
+}
+
+/* ============================================================
+   ADD LOG ENTRY
+   ============================================================ */
+function addEntry() {
+  const line   = document.getElementById('log-line').value;
+  const client = document.getElementById('log-client').value.trim();
+  const kgRaw  = document.getElementById('log-kg').value;
+  const note   = document.getElementById('log-note').value.trim();
+  if (!line)   { alert('Please select a line.'); return; }
+  if (!client) { alert('Please enter a client name.'); return; }
+  const kg = parseFloat(kgRaw);
+  if (isNaN(kg) || kg <= 0) { alert('Please enter a valid kg amount.'); return; }
+  state.log.unshift({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+    line, client, kg, note, ts: new Date().toISOString()
+  });
+  saveState();
+  document.getElementById('log-client').value = '';
+  document.getElementById('log-kg').value     = '';
+  document.getElementById('log-note').value   = '';
+  renderAll();
+}
+
+/* ============================================================
+   RENDER — CHART
+   ============================================================ */
+const tip = document.getElementById('tip');
+function showTip(x, y, text){ tip.textContent=text; tip.style.cssText+=`;display:block;left:${x+14}px;top:${y-36}px`; }
+function moveTip(x, y){ tip.style.left=(x+14)+'px'; tip.style.top=(y-36)+'px'; }
+function hideTip(){ tip.style.display='none'; }
+
+function renderChart() {
+  const area = document.getElementById('chart-area');
+  if (!state.log.length) { area.innerHTML='<div class="empty-msg">Add log entries to see chart.</div>'; return; }
+
+  const H = 170; // max bar height px
+  const byLine = {};
+  LINES.forEach(l => { byLine[l] = []; });
+  // Oldest first for left-to-right timeline feel within each column
+  [...state.log].reverse().forEach(e => { if(byLine[e.line]) byLine[e.line].push(e); });
+  const maxPer = {};
+  LINES.forEach(l => { maxPer[l] = Math.max(1, ...byLine[l].map(e=>e.kg)); });
+
+  area.innerHTML = '';
+  const row = document.createElement('div');
+  row.className = 'chart-bars-row';
+
+  LINES.forEach(line => {
+    const meta    = LINE_META[line];
+    const entries = byLine[line];
+    const col     = document.createElement('div');
+    col.className = 'chart-col';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'chart-bars-wrap';
+    wrap.style.height = H + 'px';
+    wrap.style.alignItems = 'flex-end';
+
+    if (!entries.length) {
+      const stub = document.createElement('div');
+      stub.style.cssText = 'flex:1;height:3px;background:#e2e8f0;border-radius:2px;';
+      wrap.appendChild(stub);
+    } else {
+      entries.forEach((entry, idx) => {
+        const barH = Math.max(4, Math.round((entry.kg / maxPer[line]) * H));
+        const opac = 0.5 + (idx / Math.max(entries.length-1,1)) * 0.5;
+        const bar  = document.createElement('div');
+        bar.className = 'chart-bar';
+        bar.style.cssText = `height:${barH}px;background:${meta.color};opacity:${opac.toFixed(2)};`;
+        const label = `${entry.client} · ${fmtKg(entry.kg)} kg · ${fmtTime(entry.ts)}`;
+        bar.addEventListener('mouseenter', e => showTip(e.clientX, e.clientY, label));
+        bar.addEventListener('mousemove',  e => moveTip(e.clientX, e.clientY));
+        bar.addEventListener('mouseleave', hideTip);
+        wrap.appendChild(bar);
+      });
+    }
+
+    const lbl = document.createElement('div');
+    lbl.className = 'chart-col-lbl';
+    lbl.textContent = meta.name;
+
+    col.appendChild(wrap);
+    col.appendChild(lbl);
+    row.appendChild(col);
+  });
+
+  area.appendChild(row);
+}
+
+/* ============================================================
+   RENDER — ALL CLIENTS
+   ============================================================ */
+function renderAllClients() {
+  const container = document.getElementById('all-clients');
+  const byLine = {};
+  LINES.forEach(l => { byLine[l] = {}; });
+  state.log.forEach(e => { if(byLine[e.line]) byLine[e.line][e.client]=(byLine[e.line][e.client]||0)+e.kg; });
+
+  const hasAny = LINES.some(l => Object.keys(byLine[l]).length > 0);
+  if (!hasAny) { container.innerHTML='<div class="empty-msg">Add log entries to see client totals.</div>'; return; }
+
+  const grid = document.createElement('div');
+  grid.className = 'clients-cols';
+
+  LINES.forEach(line => {
+    const pairs = Object.entries(byLine[line]).sort((a,b)=>b[1]-a[1]);
+    if (!pairs.length) return;
+    const meta = LINE_META[line];
+    const col  = document.createElement('div');
+    const hd   = document.createElement('div');
+    hd.className = 'clients-col-hd';
+    hd.style.background = meta.color;
+    hd.textContent = meta.name;
+    col.appendChild(hd);
+    pairs.forEach(([n,k]) => {
+      const r = document.createElement('div');
+      r.className = 'clients-crow';
+      r.innerHTML = `<span class="cn">${esc(n)}</span><span class="ck">${fmtKg(k)} kg</span>`;
+      col.appendChild(r);
+    });
+    grid.appendChild(col);
+  });
+
+  container.innerHTML = '';
+  container.appendChild(grid);
+}
+
+/* ============================================================
+   RENDER ALL
+   ============================================================ */
+function renderAll() {
+  renderStaff();
+  renderSummary();
+  renderLaneClients();
+  renderLog();
+  renderChart();
+  renderAllClients();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('header-date').textContent =
+    new Date().toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  loadState();
+  setupDropZones();
+  renderAll();
+
+  document.getElementById('btn-add').addEventListener('click', addEntry);
+  ['log-kg','log-note'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') addEntry(); });
+  });
+});
+</script>
+</body>
+</html>
