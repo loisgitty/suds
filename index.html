@@ -8,8 +8,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#f0f4f8;color:#1a2332;min-height:100vh}
 
-/* ── LAYOUT ── */
-.app{max-width:1440px;margin:0 auto;padding:16px}
+.app{max-width:1200px;margin:0 auto;padding:16px}
 
 /* ── HEADER ── */
 .app-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;flex-wrap:wrap;gap:8px}
@@ -17,26 +16,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .app-header h1 span{color:#3b82f6}
 .header-date{font-size:.78rem;color:#64748b;background:#fff;padding:6px 14px;border-radius:20px;border:1px solid #e2e8f0}
 
-/* ── SECTION ── */
 .section{margin-bottom:24px}
 .section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-bottom:10px}
 
 /* ── SUMMARY BAR ── */
-.summary-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+.summary-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
 .s-card{background:#fff;border-radius:12px;padding:14px 12px;text-align:center;border:2px solid;position:relative;overflow:hidden}
 .s-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .s-card .s-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
 .s-card .s-num{font-size:2.2rem;font-weight:900;line-height:1;letter-spacing:-.02em}
 .s-card .s-unit{font-size:.68rem;opacity:.6;margin-top:2px;font-weight:500}
-.s-card .s-unit-small{font-size:.62rem;opacity:.55;margin-top:2px;font-weight:500}
 
 .t-retail{border-color:#c4b5fd;color:#6d28d9}.t-retail::before{background:#7c3aed}.t-retail .s-num{color:#5b21b6}
 .t-line1{border-color:#86efac;color:#15803d}.t-line1::before{background:#16a34a}.t-line1 .s-num{color:#166534}
 .t-line2{border-color:#93c5fd;color:#1d4ed8}.t-line2::before{background:#2563eb}.t-line2 .s-num{color:#1e40af}
 .t-line3{border-color:#fcd34d;color:#b45309}.t-line3::before{background:#d97706}.t-line3 .s-num{color:#92400e}
-.t-pd{border-color:#fdba74;color:#c2410c}.t-pd::before{background:#f97316}.t-pd .s-num{color:#9a3412}
 
-/* ── POOLS ROW ── */
+/* ── POOLS ── */
 .pools-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
 .pool-card{background:#fff;border-radius:12px;border:2px dashed #e2e8f0;overflow:hidden;min-height:90px}
 .pool-card.pool-rest{background:#fdf4ff;border-color:#d8b4fe}
@@ -48,8 +44,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .pool-absent .pool-title{color:#dc2626}.pool-absent .pool-dot{background:#dc2626}
 .pool-unassigned .pool-title{color:#64748b}.pool-unassigned .pool-dot{background:#94a3b8}
 
-/* ── LINES GRID ── */
-.lines-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+/* ── TABS ── */
+.tab-bar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:8px 18px;border-radius:8px;border:2px solid transparent;font-size:.8rem;font-weight:700;cursor:pointer;background:#fff;color:#64748b;border-color:#e2e8f0;transition:all .15s;font-family:inherit}
+.tab-btn:hover{border-color:#94a3b8;color:#334155}
+.tab-btn.active[data-tab="retail"]{background:#7c3aed;border-color:#7c3aed;color:#fff}
+.tab-btn.active[data-tab="line1"] {background:#16a34a;border-color:#16a34a;color:#fff}
+.tab-btn.active[data-tab="line2"] {background:#2563eb;border-color:#2563eb;color:#fff}
+.tab-btn.active[data-tab="line3"] {background:#d97706;border-color:#d97706;color:#fff}
+
+/* ── TAB PANELS ── */
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── LANE ── */
 .lane{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;overflow:hidden}
 .lane-hd{padding:10px 14px}
 .lane-hd-title{font-size:.85rem;font-weight:700;color:#fff}
@@ -75,7 +83,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .savatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:#fff;flex-shrink:0}
 .sname{font-size:.78rem;font-weight:600;color:#334155;line-height:1.2}
 
-/* ── LOG SECTION ── */
+/* ── LOG ── */
 .log-card{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;padding:16px}
 .log-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #f0f4f8}
 .log-form select,.log-form input{padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;color:#334155;outline:none;font-family:inherit;background:#f8fafc;transition:border-color .15s}
@@ -116,23 +124,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .empty-msg{text-align:center;padding:20px;color:#94a3b8;font-size:.78rem;font-style:italic}
 .chart-tooltip{position:fixed;background:#0f172a;color:#fff;font-size:.72rem;padding:5px 10px;border-radius:6px;pointer-events:none;z-index:9999;display:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.2)}
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:#f1f5f9}
 ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
 
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .lines-grid{grid-template-columns:1fr}
+@media(max-width:640px){
+  .pools-row{grid-template-columns:1fr}
+  .summary-bar{grid-template-columns:1fr 1fr}
   .log-form{flex-direction:column}
   .log-form .inp-note{width:auto}
-}
-@media(max-width:600px){
-  .pools-row{grid-template-columns:1fr}
-  .summary-bar{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:400px){
-  .summary-bar{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -167,11 +167,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
       <div class="s-num" id="sum-line3">0</div>
       <div class="s-unit">clients</div>
     </div>
-    <div class="s-card t-pd">
-      <div class="s-label">P&amp;D</div>
-      <div class="s-num" id="sum-pd">0</div>
-      <div class="s-unit">clients</div>
-    </div>
   </div>
 
   <!-- Load Log -->
@@ -185,7 +180,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
           <option value="line1">Line 1</option>
           <option value="line2">Line 2</option>
           <option value="line3">Line 3</option>
-          <option value="pd">P&amp;D</option>
         </select>
         <input class="inp-client" type="text" id="log-client" placeholder="Client name" autocomplete="off">
         <input class="inp-note" type="text" id="log-note" placeholder="Note (optional)" autocomplete="off">
@@ -202,39 +196,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
     <div class="section-label">Staff Pools</div>
     <div class="pools-row">
       <div class="pool-card pool-unassigned">
-        <div class="pool-header">
-          <div class="pool-dot"></div>
-          <span class="pool-title">Unassigned</span>
-        </div>
+        <div class="pool-header"><div class="pool-dot"></div><span class="pool-title">Unassigned</span></div>
         <div class="drop-area" id="zone-unassigned" data-zone="unassigned"></div>
       </div>
       <div class="pool-card pool-rest">
-        <div class="pool-header">
-          <div class="pool-dot"></div>
-          <span class="pool-title">Rest Day</span>
-        </div>
+        <div class="pool-header"><div class="pool-dot"></div><span class="pool-title">Rest Day</span></div>
         <div class="drop-area" id="zone-rest" data-zone="rest"></div>
       </div>
       <div class="pool-card pool-absent">
-        <div class="pool-header">
-          <div class="pool-dot"></div>
-          <span class="pool-title">Absent</span>
-        </div>
+        <div class="pool-header"><div class="pool-dot"></div><span class="pool-title">Absent</span></div>
         <div class="drop-area" id="zone-absent" data-zone="absent"></div>
       </div>
     </div>
   </div>
 
-  <!-- Lines -->
+  <!-- Lines (Tabbed) -->
   <div class="section">
     <div class="section-label">Lines &amp; Staff</div>
-    <div class="lines-grid">
 
-      <!-- Retail -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="retail">Retail</button>
+      <button class="tab-btn" data-tab="line1">Line 1</button>
+      <button class="tab-btn" data-tab="line2">Line 2</button>
+      <button class="tab-btn" data-tab="line3">Line 3</button>
+    </div>
+
+    <!-- Retail -->
+    <div class="tab-panel active" id="panel-retail">
       <div class="lane">
-        <div class="lane-hd" style="background:#7c3aed">
-          <span class="lane-hd-title">Retail</span>
-        </div>
+        <div class="lane-hd" style="background:#7c3aed"><span class="lane-hd-title">Retail</span></div>
         <div class="lane-body">
           <div class="drop-area" id="zone-retail" data-zone="retail"></div>
         </div>
@@ -243,12 +233,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
           <div id="lc-retail"></div>
         </div>
       </div>
+    </div>
 
-      <!-- Line 1 -->
+    <!-- Line 1 -->
+    <div class="tab-panel" id="panel-line1">
       <div class="lane">
-        <div class="lane-hd" style="background:#16a34a">
-          <span class="lane-hd-title">Line 1</span>
-        </div>
+        <div class="lane-hd" style="background:#16a34a"><span class="lane-hd-title">Line 1</span></div>
         <div class="lane-shifts">
           <div class="shift-col">
             <div class="shift-lbl" style="color:#166534;background:#f0fdf4">AM</div>
@@ -264,12 +254,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
           <div id="lc-line1"></div>
         </div>
       </div>
+    </div>
 
-      <!-- Line 2 -->
+    <!-- Line 2 -->
+    <div class="tab-panel" id="panel-line2">
       <div class="lane">
-        <div class="lane-hd" style="background:#2563eb">
-          <span class="lane-hd-title">Line 2</span>
-        </div>
+        <div class="lane-hd" style="background:#2563eb"><span class="lane-hd-title">Line 2</span></div>
         <div class="lane-shifts">
           <div class="shift-col">
             <div class="shift-lbl" style="color:#1e40af;background:#eff6ff">AM</div>
@@ -285,12 +275,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
           <div id="lc-line2"></div>
         </div>
       </div>
+    </div>
 
-      <!-- Line 3 -->
+    <!-- Line 3 -->
+    <div class="tab-panel" id="panel-line3">
       <div class="lane">
-        <div class="lane-hd" style="background:#d97706">
-          <span class="lane-hd-title">Line 3</span>
-        </div>
+        <div class="lane-hd" style="background:#d97706"><span class="lane-hd-title">Line 3</span></div>
         <div class="lane-shifts">
           <div class="shift-col">
             <div class="shift-lbl" style="color:#92400e;background:#fffbeb">AM</div>
@@ -306,22 +296,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
           <div id="lc-line3"></div>
         </div>
       </div>
-
-      <!-- P&D -->
-      <div class="lane">
-        <div class="lane-hd" style="background:#f97316">
-          <span class="lane-hd-title">Pickup &amp; Delivery</span>
-        </div>
-        <div class="lane-body">
-          <div class="drop-area" id="zone-pd" data-zone="pd"></div>
-        </div>
-        <div class="lane-clients">
-          <div class="clients-hd">Clients Today</div>
-          <div id="lc-pd"></div>
-        </div>
-      </div>
-
     </div>
+
   </div>
 
   <!-- Chart -->
@@ -336,76 +312,58 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
   <div class="section">
     <div class="section-label">All Clients</div>
     <div class="clients-card">
-      <div id="all-clients"><div class="empty-msg">Add log entries to see client totals.</div></div>
+      <div id="all-clients"><div class="empty-msg">Add log entries to see client list.</div></div>
     </div>
   </div>
 
 </div>
 
-<!-- Chart tooltip -->
 <div class="chart-tooltip" id="tip"></div>
 
 <script>
-/* ============================================================
-   DATA
-   ============================================================ */
+/* ── DATA ── */
 const STAFF = [
-  // Retail — start in retail lane
   {id:'werlyn',  name:'Werlyn',  home:'retail'},
   {id:'katrina', name:'Katrina', home:'retail'},
   {id:'jessa',   name:'Jessa',   home:'retail'},
   {id:'shirley', name:'Shirley', home:'retail'},
-  // Line 1 — start unassigned
   {id:'yolly',   name:'Yolly',   home:'unassigned'},
   {id:'morena',  name:'Morena',  home:'unassigned'},
   {id:'emelyn',  name:'Emelyn',  home:'unassigned'},
-  // Line 2 — start unassigned
   {id:'alona',   name:'Alona',   home:'unassigned'},
   {id:'lilia',   name:'Lilia',   home:'unassigned'},
   {id:'arjelie', name:'Arjelie', home:'unassigned'},
   {id:'argelyn', name:'Argelyn', home:'unassigned'},
   {id:'annabel', name:'Annabel', home:'unassigned'},
-  // Line 3 — start unassigned
   {id:'helen',   name:'Helen',   home:'unassigned'},
   {id:'jogelyn', name:'Jogelyn', home:'unassigned'},
   {id:'tolits',  name:'Tolits',  home:'unassigned'},
-  // P&D — start in pd lane
-  {id:'joedel',  name:'Joedel',  home:'pd'},
-  {id:'loydi',   name:'Loydi',   home:'pd'},
-  {id:'jerome',  name:'Jerome',  home:'pd'},
-  {id:'anton',   name:'Anton',   home:'pd'},
 ];
 
-const LINES = ['retail','line1','line2','line3','pd'];
+const LINES = ['retail','line1','line2','line3'];
 const LINE_META = {
-  retail:{name:'Retail',  color:'#7c3aed'},
-  line1: {name:'Line 1',  color:'#16a34a'},
-  line2: {name:'Line 2',  color:'#2563eb'},
-  line3: {name:'Line 3',  color:'#d97706'},
-  pd:    {name:'P&D',     color:'#f97316'},
+  retail:{name:'Retail', color:'#7c3aed'},
+  line1: {name:'Line 1', color:'#16a34a'},
+  line2: {name:'Line 2', color:'#2563eb'},
+  line3: {name:'Line 3', color:'#d97706'},
 };
-const ALL_ZONES = ['retail','line1-am','line1-pm','line2-am','line2-pm',
-                   'line3-am','line3-pm','pd','unassigned','rest','absent'];
+const ALL_ZONES = ['retail','line1-am','line1-pm','line2-am','line2-pm','line3-am','line3-pm','unassigned','rest','absent'];
 
-/* ============================================================
-   STATE
-   ============================================================ */
+/* ── STATE ── */
 let state = {assign:{}, log:[]};
 
 function loadState() {
   try {
-    const raw = localStorage.getItem('laundry_ops_v3');
-    if (raw) { const p = JSON.parse(raw); state.assign = p.assign||{}; state.log = p.log||[]; }
+    const raw = localStorage.getItem('laundry_ops_v4');
+    if (raw) { const p=JSON.parse(raw); state.assign=p.assign||{}; state.log=p.log||[]; }
   } catch(e){}
-  STAFF.forEach(s => { if (!state.assign[s.id]) state.assign[s.id] = s.home; });
+  STAFF.forEach(s => { if(!state.assign[s.id]) state.assign[s.id]=s.home; });
 }
 function saveState() {
-  try { localStorage.setItem('laundry_ops_v3', JSON.stringify(state)); } catch(e){}
+  try { localStorage.setItem('laundry_ops_v4', JSON.stringify(state)); } catch(e){}
 }
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
+/* ── HELPERS ── */
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function initials(n){ return n.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
 function avatarColor(id){
@@ -415,328 +373,233 @@ function avatarColor(id){
 }
 function fmtTime(iso){ return new Date(iso).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
 function clientCounts(){
-  const t={retail:new Set(),line1:new Set(),line2:new Set(),line3:new Set(),pd:new Set()};
+  const t={retail:new Set(),line1:new Set(),line2:new Set(),line3:new Set()};
   state.log.forEach(e=>{ if(t[e.line]) t[e.line].add(e.client); });
-  const r={};
-  Object.keys(t).forEach(k=>r[k]=t[k].size);
-  return r;
+  const r={}; Object.keys(t).forEach(k=>r[k]=t[k].size); return r;
 }
 
-/* ============================================================
-   DRAG & DROP — HTML5
-   ============================================================ */
-let dragId = null;
+/* ── TABS ── */
+function setupTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+}
 
+/* ── DRAG & DROP — HTML5 ── */
+let dragId = null;
 function bindDragEvents(card, id) {
   card.draggable = true;
   card.addEventListener('dragstart', e => {
-    dragId = id;
-    card.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', id);
+    dragId = id; card.classList.add('dragging');
+    e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',id);
   });
-  card.addEventListener('dragend', () => {
-    card.classList.remove('dragging');
-    dragId = null;
-  });
+  card.addEventListener('dragend', () => { card.classList.remove('dragging'); dragId=null; });
 }
-
 function setupDropZones() {
   document.querySelectorAll('[data-zone]').forEach(el => {
-    el.addEventListener('dragover', e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      el.classList.add('drag-over');
-    });
-    el.addEventListener('dragleave', e => {
-      if (!el.contains(e.relatedTarget)) el.classList.remove('drag-over');
-    });
+    el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag-over'); });
+    el.addEventListener('dragleave', e => { if(!el.contains(e.relatedTarget)) el.classList.remove('drag-over'); });
     el.addEventListener('drop', e => {
-      e.preventDefault();
-      el.classList.remove('drag-over');
-      const id = e.dataTransfer.getData('text/plain') || dragId;
-      if (id) { state.assign[id] = el.dataset.zone; saveState(); renderStaff(); }
+      e.preventDefault(); el.classList.remove('drag-over');
+      const id = e.dataTransfer.getData('text/plain')||dragId;
+      if(id){ state.assign[id]=el.dataset.zone; saveState(); renderStaff(); }
     });
   });
 }
 
-/* ============================================================
-   DRAG & DROP — TOUCH
-   ============================================================ */
+/* ── DRAG & DROP — TOUCH ── */
 let touchDrag = null;
-
 function bindTouchEvents(card, id) {
   card.addEventListener('touchstart', e => {
-    const touch = e.touches[0];
-    const rect  = card.getBoundingClientRect();
-    const ghost = card.cloneNode(true);
-    ghost.style.cssText =
-      'position:fixed;z-index:9999;pointer-events:none;opacity:.85;' +
-      `width:${rect.width}px;top:${rect.top}px;left:${rect.left}px;` +
+    const t=e.touches[0], rect=card.getBoundingClientRect(), ghost=card.cloneNode(true);
+    ghost.style.cssText='position:fixed;z-index:9999;pointer-events:none;opacity:.85;'+
+      `width:${rect.width}px;top:${rect.top}px;left:${rect.left}px;`+
       'border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:none;';
     document.body.appendChild(ghost);
-    card.style.opacity = '.3';
-    touchDrag = { id, ghost, card, ox: touch.clientX - rect.left, oy: touch.clientY - rect.top };
+    card.style.opacity='.3';
+    touchDrag={id,ghost,card,ox:t.clientX-rect.left,oy:t.clientY-rect.top};
     e.preventDefault();
-  }, {passive:false});
-
+  },{passive:false});
   card.addEventListener('touchmove', e => {
-    if (!touchDrag) return;
-    const t = e.touches[0];
-    touchDrag.ghost.style.left = (t.clientX - touchDrag.ox) + 'px';
-    touchDrag.ghost.style.top  = (t.clientY - touchDrag.oy) + 'px';
+    if(!touchDrag) return;
+    const t=e.touches[0];
+    touchDrag.ghost.style.left=(t.clientX-touchDrag.ox)+'px';
+    touchDrag.ghost.style.top=(t.clientY-touchDrag.oy)+'px';
     e.preventDefault();
-  }, {passive:false});
-
+  },{passive:false});
   card.addEventListener('touchend', e => {
-    if (!touchDrag) return;
-    const t = e.changedTouches[0];
-    touchDrag.ghost.style.display = 'none';
-    const el = document.elementFromPoint(t.clientX, t.clientY);
-    touchDrag.ghost.remove();
-    touchDrag.card.style.opacity = '';
-    const zone = el && el.closest('[data-zone]');
-    if (zone) { state.assign[touchDrag.id] = zone.dataset.zone; saveState(); renderStaff(); }
-    touchDrag = null;
-    e.preventDefault();
-  }, {passive:false});
+    if(!touchDrag) return;
+    const t=e.changedTouches[0];
+    touchDrag.ghost.style.display='none';
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    touchDrag.ghost.remove(); touchDrag.card.style.opacity='';
+    const zone=el&&el.closest('[data-zone]');
+    if(zone){ state.assign[touchDrag.id]=zone.dataset.zone; saveState(); renderStaff(); }
+    touchDrag=null; e.preventDefault();
+  },{passive:false});
 }
 
-/* ============================================================
-   RENDER — STAFF
-   ============================================================ */
+/* ── RENDER STAFF ── */
 function renderStaff() {
-  ALL_ZONES.forEach(z => { const el = document.getElementById('zone-'+z); if(el) el.innerHTML=''; });
-
+  ALL_ZONES.forEach(z=>{ const el=document.getElementById('zone-'+z); if(el) el.innerHTML=''; });
   STAFF.forEach(s => {
-    const zone  = state.assign[s.id] || s.home;
-    const zoneEl = document.getElementById('zone-'+zone);
-    if (!zoneEl) return;
-
-    const card = document.createElement('div');
-    card.className = 'staff-card' + (zone==='absent' ? ' is-absent' : '');
-    card.dataset.sid = s.id;
-
-    const av = document.createElement('div');
-    av.className = 'savatar';
-    av.style.background = avatarColor(s.id);
-    av.textContent = initials(s.name);
-
-    const nm = document.createElement('span');
-    nm.className = 'sname';
-    nm.textContent = s.name;
-
-    card.appendChild(av);
-    card.appendChild(nm);
-    zoneEl.appendChild(card);
-
-    bindDragEvents(card, s.id);
-    bindTouchEvents(card, s.id);
+    const zone=state.assign[s.id]||s.home;
+    const zoneEl=document.getElementById('zone-'+zone);
+    if(!zoneEl) return;
+    const card=document.createElement('div');
+    card.className='staff-card'+(zone==='absent'?' is-absent':'');
+    const av=document.createElement('div');
+    av.className='savatar'; av.style.background=avatarColor(s.id); av.textContent=initials(s.name);
+    const nm=document.createElement('span');
+    nm.className='sname'; nm.textContent=s.name;
+    card.appendChild(av); card.appendChild(nm); zoneEl.appendChild(card);
+    bindDragEvents(card,s.id); bindTouchEvents(card,s.id);
   });
 }
 
-/* ============================================================
-   RENDER — SUMMARY
-   ============================================================ */
+/* ── RENDER SUMMARY ── */
 function renderSummary() {
-  const t = clientCounts();
-  document.getElementById('sum-retail').textContent = t.retail;
-  document.getElementById('sum-line1').textContent  = t.line1;
-  document.getElementById('sum-line2').textContent  = t.line2;
-  document.getElementById('sum-line3').textContent  = t.line3;
-  document.getElementById('sum-pd').textContent     = t.pd;
+  const t=clientCounts();
+  document.getElementById('sum-retail').textContent=t.retail;
+  document.getElementById('sum-line1').textContent=t.line1;
+  document.getElementById('sum-line2').textContent=t.line2;
+  document.getElementById('sum-line3').textContent=t.line3;
 }
 
-/* ============================================================
-   RENDER — LANE CLIENT LISTS
-   ============================================================ */
+/* ── RENDER LANE CLIENTS ── */
 function renderLaneClients() {
   LINES.forEach(line => {
-    const clients = [...new Set(state.log.filter(e => e.line===line).map(e => e.client))];
-    const el = document.getElementById('lc-'+line);
-    if (!el) return;
-    el.innerHTML = clients.length
-      ? clients.map(n => `<div class="client-row"><span class="cn">${esc(n)}</span></div>`).join('')
+    const clients=[...new Set(state.log.filter(e=>e.line===line).map(e=>e.client))];
+    const el=document.getElementById('lc-'+line);
+    if(!el) return;
+    el.innerHTML=clients.length
+      ? clients.map(n=>`<div class="client-row"><span class="cn">${esc(n)}</span></div>`).join('')
       : '<div style="font-size:.72rem;color:#94a3b8;font-style:italic;padding:2px 4px">No clients logged</div>';
   });
 }
 
-/* ============================================================
-   RENDER — LOG LIST
-   ============================================================ */
+/* ── RENDER LOG ── */
 function renderLog() {
-  const container = document.getElementById('log-list');
-  if (!state.log.length) { container.innerHTML='<div class="empty-msg">No entries yet.</div>'; return; }
-  container.innerHTML = '';
+  const container=document.getElementById('log-list');
+  if(!state.log.length){ container.innerHTML='<div class="empty-msg">No entries yet.</div>'; return; }
+  container.innerHTML='';
   state.log.forEach(entry => {
-    const meta = LINE_META[entry.line] || {name:entry.line, color:'#64748b'};
-    const item = document.createElement('div');
-    item.className = 'log-item';
-    item.innerHTML =
-      `<span class="log-badge" style="background:${meta.color}">${esc(meta.name)}</span>` +
-      `<span class="log-client">${esc(entry.client)}</span>` +
-      (entry.note ? `<span class="log-note">${esc(entry.note)}</span>` : `<span></span>`) +
-      `<span class="log-time">${fmtTime(entry.ts)}</span>` +
+    const meta=LINE_META[entry.line]||{name:entry.line,color:'#64748b'};
+    const item=document.createElement('div');
+    item.className='log-item';
+    item.innerHTML=
+      `<span class="log-badge" style="background:${meta.color}">${esc(meta.name)}</span>`+
+      `<span class="log-client">${esc(entry.client)}</span>`+
+      (entry.note?`<span class="log-note">${esc(entry.note)}</span>`:`<span></span>`)+
+      `<span class="log-time">${fmtTime(entry.ts)}</span>`+
       `<button class="btn-del" data-id="${esc(entry.id)}" title="Delete">&#x2715;</button>`;
     container.appendChild(item);
   });
-  container.querySelectorAll('.btn-del').forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.log = state.log.filter(e => e.id !== btn.dataset.id);
-      saveState(); renderAll();
-    });
+  container.querySelectorAll('.btn-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{ state.log=state.log.filter(e=>e.id!==btn.dataset.id); saveState(); renderAll(); });
   });
 }
 
-/* ============================================================
-   ADD LOG ENTRY
-   ============================================================ */
+/* ── ADD ENTRY ── */
 function addEntry() {
-  const line   = document.getElementById('log-line').value;
-  const client = document.getElementById('log-client').value.trim();
-  const note   = document.getElementById('log-note').value.trim();
-  if (!line)   { alert('Please select a line.'); return; }
-  if (!client) { alert('Please enter a client name.'); return; }
-  state.log.unshift({
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
-    line, client, note, ts: new Date().toISOString()
-  });
+  const line=document.getElementById('log-line').value;
+  const client=document.getElementById('log-client').value.trim();
+  const note=document.getElementById('log-note').value.trim();
+  if(!line){ alert('Please select a line.'); return; }
+  if(!client){ alert('Please enter a client name.'); return; }
+  state.log.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),line,client,note,ts:new Date().toISOString()});
   saveState();
-  document.getElementById('log-client').value = '';
-  document.getElementById('log-note').value   = '';
+  document.getElementById('log-client').value='';
+  document.getElementById('log-note').value='';
   renderAll();
 }
 
-/* ============================================================
-   RENDER — CHART
-   ============================================================ */
-const tip = document.getElementById('tip');
-function showTip(x, y, text){ tip.textContent=text; tip.style.cssText+=`;display:block;left:${x+14}px;top:${y-36}px`; }
-function moveTip(x, y){ tip.style.left=(x+14)+'px'; tip.style.top=(y-36)+'px'; }
+/* ── CHART ── */
+const tip=document.getElementById('tip');
+function showTip(x,y,text){ tip.textContent=text; tip.style.cssText+=`;display:block;left:${x+14}px;top:${y-36}px`; }
+function moveTip(x,y){ tip.style.left=(x+14)+'px'; tip.style.top=(y-36)+'px'; }
 function hideTip(){ tip.style.display='none'; }
 
 function renderChart() {
-  const area = document.getElementById('chart-area');
-  if (!state.log.length) { area.innerHTML='<div class="empty-msg">Add log entries to see chart.</div>'; return; }
-
-  const H = 170;
-  const byLine = {};
-  LINES.forEach(l => { byLine[l] = []; });
-  [...state.log].reverse().forEach(e => { if(byLine[e.line]) byLine[e.line].push(e); });
-  // Scale bars by entry count within each line
-  const maxPer = {};
-  LINES.forEach(l => { maxPer[l] = Math.max(1, byLine[l].length); });
-
-  area.innerHTML = '';
-  const row = document.createElement('div');
-  row.className = 'chart-bars-row';
-
-  LINES.forEach(line => {
-    const meta    = LINE_META[line];
-    const entries = byLine[line];
-    const col     = document.createElement('div');
-    col.className = 'chart-col';
-
-    const wrap = document.createElement('div');
-    wrap.className = 'chart-bars-wrap';
-    wrap.style.height = H + 'px';
-    wrap.style.alignItems = 'flex-end';
-
-    if (!entries.length) {
-      const stub = document.createElement('div');
-      stub.style.cssText = 'flex:1;height:3px;background:#e2e8f0;border-radius:2px;';
+  const area=document.getElementById('chart-area');
+  if(!state.log.length){ area.innerHTML='<div class="empty-msg">Add log entries to see chart.</div>'; return; }
+  const H=170;
+  const byLine={};
+  LINES.forEach(l=>{byLine[l]=[];});
+  [...state.log].reverse().forEach(e=>{if(byLine[e.line]) byLine[e.line].push(e);});
+  area.innerHTML='';
+  const row=document.createElement('div');
+  row.className='chart-bars-row';
+  LINES.forEach(line=>{
+    const meta=LINE_META[line], entries=byLine[line];
+    const col=document.createElement('div'); col.className='chart-col';
+    const wrap=document.createElement('div'); wrap.className='chart-bars-wrap';
+    wrap.style.height=H+'px'; wrap.style.alignItems='flex-end';
+    if(!entries.length){
+      const stub=document.createElement('div');
+      stub.style.cssText='flex:1;height:3px;background:#e2e8f0;border-radius:2px;';
       wrap.appendChild(stub);
     } else {
-      // Each bar = one entry, all same height (client visit)
-      entries.forEach((entry, idx) => {
-        const opac = 0.5 + (idx / Math.max(entries.length-1,1)) * 0.5;
-        const bar  = document.createElement('div');
-        bar.className = 'chart-bar';
-        bar.style.cssText = `height:${H}px;background:${meta.color};opacity:${opac.toFixed(2)};`;
-        const label = `${entry.client} · ${fmtTime(entry.ts)}`;
-        bar.addEventListener('mouseenter', e => showTip(e.clientX, e.clientY, label));
-        bar.addEventListener('mousemove',  e => moveTip(e.clientX, e.clientY));
-        bar.addEventListener('mouseleave', hideTip);
+      entries.forEach((entry,idx)=>{
+        const opac=0.5+(idx/Math.max(entries.length-1,1))*0.5;
+        const bar=document.createElement('div'); bar.className='chart-bar';
+        bar.style.cssText=`height:${H}px;background:${meta.color};opacity:${opac.toFixed(2)};`;
+        const label=`${entry.client} · ${fmtTime(entry.ts)}`;
+        bar.addEventListener('mouseenter',e=>showTip(e.clientX,e.clientY,label));
+        bar.addEventListener('mousemove',e=>moveTip(e.clientX,e.clientY));
+        bar.addEventListener('mouseleave',hideTip);
         wrap.appendChild(bar);
       });
     }
-
-    const lbl = document.createElement('div');
-    lbl.className = 'chart-col-lbl';
-    lbl.textContent = meta.name;
-
-    col.appendChild(wrap);
-    col.appendChild(lbl);
-    row.appendChild(col);
+    const lbl=document.createElement('div'); lbl.className='chart-col-lbl'; lbl.textContent=meta.name;
+    col.appendChild(wrap); col.appendChild(lbl); row.appendChild(col);
   });
-
   area.appendChild(row);
 }
 
-/* ============================================================
-   RENDER — ALL CLIENTS
-   ============================================================ */
+/* ── ALL CLIENTS ── */
 function renderAllClients() {
-  const container = document.getElementById('all-clients');
-  const byLine = {};
-  LINES.forEach(l => { byLine[l] = {}; });
-  state.log.forEach(e => { if(byLine[e.line]) byLine[e.line][e.client]=(byLine[e.line][e.client]||0)+1; });
-
-  const hasAny = LINES.some(l => Object.keys(byLine[l]).length > 0);
-  if (!hasAny) { container.innerHTML='<div class="empty-msg">Add log entries to see client list.</div>'; return; }
-
-  const grid = document.createElement('div');
-  grid.className = 'clients-cols';
-
-  LINES.forEach(line => {
-    const pairs = Object.entries(byLine[line]).sort((a,b)=>b[1]-a[1]);
-    if (!pairs.length) return;
-    const meta = LINE_META[line];
-    const col  = document.createElement('div');
-    const hd   = document.createElement('div');
-    hd.className = 'clients-col-hd';
-    hd.style.background = meta.color;
-    hd.textContent = meta.name;
-    col.appendChild(hd);
-    pairs.forEach(([n]) => {
-      const r = document.createElement('div');
-      r.className = 'clients-crow';
-      r.innerHTML = `<span class="cn">${esc(n)}</span>`;
-      col.appendChild(r);
-    });
+  const container=document.getElementById('all-clients');
+  const byLine={};
+  LINES.forEach(l=>{byLine[l]={};});
+  state.log.forEach(e=>{if(byLine[e.line]) byLine[e.line][e.client]=(byLine[e.line][e.client]||0)+1;});
+  const hasAny=LINES.some(l=>Object.keys(byLine[l]).length>0);
+  if(!hasAny){ container.innerHTML='<div class="empty-msg">Add log entries to see client list.</div>'; return; }
+  const grid=document.createElement('div'); grid.className='clients-cols';
+  LINES.forEach(line=>{
+    const pairs=Object.entries(byLine[line]).sort((a,b)=>b[1]-a[1]);
+    if(!pairs.length) return;
+    const meta=LINE_META[line], col=document.createElement('div');
+    const hd=document.createElement('div'); hd.className='clients-col-hd';
+    hd.style.background=meta.color; hd.textContent=meta.name; col.appendChild(hd);
+    pairs.forEach(([n])=>{ const r=document.createElement('div'); r.className='clients-crow';
+      r.innerHTML=`<span class="cn">${esc(n)}</span>`; col.appendChild(r); });
     grid.appendChild(col);
   });
-
-  container.innerHTML = '';
-  container.appendChild(grid);
+  container.innerHTML=''; container.appendChild(grid);
 }
 
-/* ============================================================
-   RENDER ALL
-   ============================================================ */
+/* ── RENDER ALL ── */
 function renderAll() {
-  renderStaff();
-  renderSummary();
-  renderLaneClients();
-  renderLog();
-  renderChart();
-  renderAllClients();
+  renderStaff(); renderSummary(); renderLaneClients(); renderLog(); renderChart(); renderAllClients();
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
+/* ── INIT ── */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('header-date').textContent =
-    new Date().toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
+    new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   loadState();
+  setupTabs();
   setupDropZones();
   renderAll();
-
   document.getElementById('btn-add').addEventListener('click', addEntry);
-  ['log-client','log-note'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') addEntry(); });
+  ['log-client','log-note'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter') addEntry();});
   });
 });
 </script>
