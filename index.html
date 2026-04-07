@@ -28,6 +28,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .s-card .s-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
 .s-card .s-num{font-size:2.2rem;font-weight:900;line-height:1;letter-spacing:-.02em}
 .s-card .s-unit{font-size:.68rem;opacity:.6;margin-top:2px;font-weight:500}
+.s-card .s-unit-small{font-size:.62rem;opacity:.55;margin-top:2px;font-weight:500}
 
 .t-retail{border-color:#c4b5fd;color:#6d28d9}.t-retail::before{background:#7c3aed}.t-retail .s-num{color:#5b21b6}
 .t-line1{border-color:#86efac;color:#15803d}.t-line1::before{background:#16a34a}.t-line1 .s-num{color:#166534}
@@ -59,9 +60,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .shift-lbl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:5px 10px}
 .lane-clients{border-top:1px solid #f0f4f8;padding:8px 10px}
 .clients-hd{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:5px}
-.client-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:.74rem}
+.client-row{display:flex;align-items:center;padding:2px 0;font-size:.74rem}
 .client-row .cn{color:#475569}
-.client-row .ckg{font-weight:700;color:#0f172a}
 
 /* ── DROP AREA ── */
 .drop-area{padding:8px;min-height:60px}
@@ -81,7 +81,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .log-form select,.log-form input{padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;color:#334155;outline:none;font-family:inherit;background:#f8fafc;transition:border-color .15s}
 .log-form select:focus,.log-form input:focus{border-color:#93c5fd;background:#fff}
 .log-form select{min-width:100px}
-.log-form .inp-kg{width:72px}
 .log-form .inp-client{flex:1;min-width:100px}
 .log-form .inp-note{width:180px}
 .btn-primary{padding:8px 16px;background:#0f172a;color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap}
@@ -91,7 +90,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .log-item:hover{background:#f1f5f9}
 .log-badge{padding:2px 7px;border-radius:4px;font-size:.64rem;font-weight:700;color:#fff;white-space:nowrap;flex-shrink:0}
 .log-client{font-weight:600;color:#1e293b;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.log-kg{font-weight:700;color:#0f172a;white-space:nowrap;flex-shrink:0}
 .log-note{color:#64748b;font-style:italic;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .log-time{color:#94a3b8;white-space:nowrap;flex-shrink:0;font-size:.7rem}
 .btn-del{background:none;border:none;color:#cbd5e1;cursor:pointer;font-size:1rem;line-height:1;padding:2px 5px;border-radius:4px;transition:color .15s,background .15s;flex-shrink:0}
@@ -110,10 +108,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
 .clients-card{background:#fff;border-radius:12px;border:1.5px solid #e8edf2;padding:16px}
 .clients-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
 .clients-col-hd{font-size:.72rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;margin-bottom:8px}
-.clients-crow{display:flex;justify-content:space-between;font-size:.78rem;padding:3px 5px;border-radius:4px}
+.clients-crow{display:flex;font-size:.78rem;padding:3px 5px;border-radius:4px}
 .clients-crow:nth-child(odd){background:#f8fafc}
 .clients-crow .cn{color:#475569}
-.clients-crow .ck{font-weight:700;color:#0f172a}
 
 /* ── SHARED ── */
 .empty-msg{text-align:center;padding:20px;color:#94a3b8;font-size:.78rem;font-style:italic}
@@ -153,27 +150,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
     <div class="s-card t-retail">
       <div class="s-label">Retail</div>
       <div class="s-num" id="sum-retail">0</div>
-      <div class="s-unit">kg total</div>
+      <div class="s-unit">clients</div>
     </div>
     <div class="s-card t-line1">
       <div class="s-label">Line 1</div>
       <div class="s-num" id="sum-line1">0</div>
-      <div class="s-unit">kg total</div>
+      <div class="s-unit">clients</div>
     </div>
     <div class="s-card t-line2">
       <div class="s-label">Line 2</div>
       <div class="s-num" id="sum-line2">0</div>
-      <div class="s-unit">kg total</div>
+      <div class="s-unit">clients</div>
     </div>
     <div class="s-card t-line3">
       <div class="s-label">Line 3</div>
       <div class="s-num" id="sum-line3">0</div>
-      <div class="s-unit">kg total</div>
+      <div class="s-unit">clients</div>
     </div>
     <div class="s-card t-pd">
       <div class="s-label">P&amp;D</div>
       <div class="s-num" id="sum-pd">0</div>
-      <div class="s-unit">kg total</div>
+      <div class="s-unit">clients</div>
     </div>
   </div>
 
@@ -318,7 +315,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
           <option value="pd">P&amp;D</option>
         </select>
         <input class="inp-client" type="text" id="log-client" placeholder="Client name" autocomplete="off">
-        <input class="inp-kg" type="number" id="log-kg" placeholder="kg" min="0.1" step="0.1">
         <input class="inp-note" type="text" id="log-note" placeholder="Note (optional)" autocomplete="off">
         <button class="btn-primary" id="btn-add">+ Add</button>
       </div>
@@ -417,12 +413,13 @@ function avatarColor(id){
   let h=0; for(let c of id) h=((h*31)+c.charCodeAt(0))>>>0;
   return p[h%p.length];
 }
-function fmtKg(n){ return n%1===0?String(n):n.toFixed(1); }
 function fmtTime(iso){ return new Date(iso).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
-function totals(){
-  const t={retail:0,line1:0,line2:0,line3:0,pd:0};
-  state.log.forEach(e=>{ if(t[e.line]!==undefined) t[e.line]+=e.kg; });
-  return t;
+function clientCounts(){
+  const t={retail:new Set(),line1:new Set(),line2:new Set(),line3:new Set(),pd:new Set()};
+  state.log.forEach(e=>{ if(t[e.line]) t[e.line].add(e.client); });
+  const r={};
+  Object.keys(t).forEach(k=>r[k]=t[k].size);
+  return r;
 }
 
 /* ============================================================
@@ -542,12 +539,12 @@ function renderStaff() {
    RENDER — SUMMARY
    ============================================================ */
 function renderSummary() {
-  const t = totals();
-  document.getElementById('sum-retail').textContent = fmtKg(t.retail);
-  document.getElementById('sum-line1').textContent  = fmtKg(t.line1);
-  document.getElementById('sum-line2').textContent  = fmtKg(t.line2);
-  document.getElementById('sum-line3').textContent  = fmtKg(t.line3);
-  document.getElementById('sum-pd').textContent     = fmtKg(t.pd);
+  const t = clientCounts();
+  document.getElementById('sum-retail').textContent = t.retail;
+  document.getElementById('sum-line1').textContent  = t.line1;
+  document.getElementById('sum-line2').textContent  = t.line2;
+  document.getElementById('sum-line3').textContent  = t.line3;
+  document.getElementById('sum-pd').textContent     = t.pd;
 }
 
 /* ============================================================
@@ -555,15 +552,11 @@ function renderSummary() {
    ============================================================ */
 function renderLaneClients() {
   LINES.forEach(line => {
-    const agg = {};
-    state.log.filter(e => e.line===line).forEach(e => { agg[e.client]=(agg[e.client]||0)+e.kg; });
+    const clients = [...new Set(state.log.filter(e => e.line===line).map(e => e.client))];
     const el = document.getElementById('lc-'+line);
     if (!el) return;
-    const pairs = Object.entries(agg);
-    el.innerHTML = pairs.length
-      ? pairs.map(([n,k]) =>
-          `<div class="client-row"><span class="cn">${esc(n)}</span><span class="ckg">${fmtKg(k)} kg</span></div>`
-        ).join('')
+    el.innerHTML = clients.length
+      ? clients.map(n => `<div class="client-row"><span class="cn">${esc(n)}</span></div>`).join('')
       : '<div style="font-size:.72rem;color:#94a3b8;font-style:italic;padding:2px 4px">No clients logged</div>';
   });
 }
@@ -582,7 +575,6 @@ function renderLog() {
     item.innerHTML =
       `<span class="log-badge" style="background:${meta.color}">${esc(meta.name)}</span>` +
       `<span class="log-client">${esc(entry.client)}</span>` +
-      `<span class="log-kg">${fmtKg(entry.kg)} kg</span>` +
       (entry.note ? `<span class="log-note">${esc(entry.note)}</span>` : `<span></span>`) +
       `<span class="log-time">${fmtTime(entry.ts)}</span>` +
       `<button class="btn-del" data-id="${esc(entry.id)}" title="Delete">&#x2715;</button>`;
@@ -602,19 +594,15 @@ function renderLog() {
 function addEntry() {
   const line   = document.getElementById('log-line').value;
   const client = document.getElementById('log-client').value.trim();
-  const kgRaw  = document.getElementById('log-kg').value;
   const note   = document.getElementById('log-note').value.trim();
   if (!line)   { alert('Please select a line.'); return; }
   if (!client) { alert('Please enter a client name.'); return; }
-  const kg = parseFloat(kgRaw);
-  if (isNaN(kg) || kg <= 0) { alert('Please enter a valid kg amount.'); return; }
   state.log.unshift({
     id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
-    line, client, kg, note, ts: new Date().toISOString()
+    line, client, note, ts: new Date().toISOString()
   });
   saveState();
   document.getElementById('log-client').value = '';
-  document.getElementById('log-kg').value     = '';
   document.getElementById('log-note').value   = '';
   renderAll();
 }
@@ -631,13 +619,13 @@ function renderChart() {
   const area = document.getElementById('chart-area');
   if (!state.log.length) { area.innerHTML='<div class="empty-msg">Add log entries to see chart.</div>'; return; }
 
-  const H = 170; // max bar height px
+  const H = 170;
   const byLine = {};
   LINES.forEach(l => { byLine[l] = []; });
-  // Oldest first for left-to-right timeline feel within each column
   [...state.log].reverse().forEach(e => { if(byLine[e.line]) byLine[e.line].push(e); });
+  // Scale bars by entry count within each line
   const maxPer = {};
-  LINES.forEach(l => { maxPer[l] = Math.max(1, ...byLine[l].map(e=>e.kg)); });
+  LINES.forEach(l => { maxPer[l] = Math.max(1, byLine[l].length); });
 
   area.innerHTML = '';
   const row = document.createElement('div');
@@ -659,13 +647,13 @@ function renderChart() {
       stub.style.cssText = 'flex:1;height:3px;background:#e2e8f0;border-radius:2px;';
       wrap.appendChild(stub);
     } else {
+      // Each bar = one entry, all same height (client visit)
       entries.forEach((entry, idx) => {
-        const barH = Math.max(4, Math.round((entry.kg / maxPer[line]) * H));
         const opac = 0.5 + (idx / Math.max(entries.length-1,1)) * 0.5;
         const bar  = document.createElement('div');
         bar.className = 'chart-bar';
-        bar.style.cssText = `height:${barH}px;background:${meta.color};opacity:${opac.toFixed(2)};`;
-        const label = `${entry.client} · ${fmtKg(entry.kg)} kg · ${fmtTime(entry.ts)}`;
+        bar.style.cssText = `height:${H}px;background:${meta.color};opacity:${opac.toFixed(2)};`;
+        const label = `${entry.client} · ${fmtTime(entry.ts)}`;
         bar.addEventListener('mouseenter', e => showTip(e.clientX, e.clientY, label));
         bar.addEventListener('mousemove',  e => moveTip(e.clientX, e.clientY));
         bar.addEventListener('mouseleave', hideTip);
@@ -692,10 +680,10 @@ function renderAllClients() {
   const container = document.getElementById('all-clients');
   const byLine = {};
   LINES.forEach(l => { byLine[l] = {}; });
-  state.log.forEach(e => { if(byLine[e.line]) byLine[e.line][e.client]=(byLine[e.line][e.client]||0)+e.kg; });
+  state.log.forEach(e => { if(byLine[e.line]) byLine[e.line][e.client]=(byLine[e.line][e.client]||0)+1; });
 
   const hasAny = LINES.some(l => Object.keys(byLine[l]).length > 0);
-  if (!hasAny) { container.innerHTML='<div class="empty-msg">Add log entries to see client totals.</div>'; return; }
+  if (!hasAny) { container.innerHTML='<div class="empty-msg">Add log entries to see client list.</div>'; return; }
 
   const grid = document.createElement('div');
   grid.className = 'clients-cols';
@@ -710,10 +698,10 @@ function renderAllClients() {
     hd.style.background = meta.color;
     hd.textContent = meta.name;
     col.appendChild(hd);
-    pairs.forEach(([n,k]) => {
+    pairs.forEach(([n]) => {
       const r = document.createElement('div');
       r.className = 'clients-crow';
-      r.innerHTML = `<span class="cn">${esc(n)}</span><span class="ck">${fmtKg(k)} kg</span>`;
+      r.innerHTML = `<span class="cn">${esc(n)}</span>`;
       col.appendChild(r);
     });
     grid.appendChild(col);
@@ -747,7 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAll();
 
   document.getElementById('btn-add').addEventListener('click', addEntry);
-  ['log-kg','log-note'].forEach(id => {
+  ['log-client','log-note'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') addEntry(); });
   });
 });
